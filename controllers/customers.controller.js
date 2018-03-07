@@ -42,7 +42,7 @@ module.exports = {
     },
 
     updateCustomer (req,res) {
-        Customers.findOneAndUpdate({memberid: req.body.memberid}, {$set: req.body}, {upsert: true}, (err => {
+        Customers.findOneAndUpdate({_id: req.params.id}, {$set: req.body}, { upsert: true, new: true}, ((err, data) => {
             if(err) {
                 res.status(404).json({
                     message: err
@@ -50,14 +50,14 @@ module.exports = {
             } else {
                 res.status(201).json({
                     message: "update data success",
-                    data: req.body
+                    data
                 })
             }
         }))
     },
 
     deleteCustomer (req,res) {
-        Customers.deleteOne({title: req.body.title}, (err, r) => {
+        Customers.deleteOne({_id: req.params.id}, (err, r) => {
             if(err) {
                 res.status(404).json({
                     message : "data not found"

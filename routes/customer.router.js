@@ -6,8 +6,8 @@ const { showCustomers, addCustomer, updateCustomer, deleteCustomer } = require('
 router
 
 .get('/', showCustomers)
-.post('/add', addCustomer)
-.put('/update', updateCustomer)
-.delete('/delete', deleteCustomer)
+.post('/', addCustomer)
+.put('/:id', updateCustomer)
+.delete('/:id', deleteCustomer)
 
 module.exports = router;

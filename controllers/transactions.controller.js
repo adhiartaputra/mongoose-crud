@@ -51,14 +51,16 @@ module.exports = {
 
     updateTransaction (req,res) {
         let countFine = new Date(req.body.in_date) - Transactions.due_date
+        console.log(countFine);
+				console.log(new Date(req.body.in_date));
+				console.log(Transactions.due_date);
+				
+        
+        
         Transactions.findOneAndUpdate({_id: req.body._id}, {
-                $set: { fine: countFine * 1000,
-                    in_date : req.body.in_date,
-                    out_date: req.body.out_date,
-                    member  : req.body.member,
-                    bookList: req.body.bookList}
-            
-        }, {upsert: true}, (err => {
+                $set: { fine: countFine > 0 ? 0 : Number(Math.abs(countFine)) * 1000,
+                        in_date : req.body.in_date }
+        }, {upsert: true }, (err => {
             if(err) {
                 res.status(404).json({
                     message: err
